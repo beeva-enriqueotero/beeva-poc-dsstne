@@ -9,3 +9,5 @@ ml20m-all
 .idea/misc.xml
 .idea/modules.xml
 .idea/workspace.xml
+ml100k-u1
+recs
