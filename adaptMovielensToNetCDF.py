@@ -3,6 +3,8 @@ Prepares data to go through the generatenetcdf amazon script
 """
 import pandas as pd
 import numpy as np
+import sys
+
 from tqdm import tqdm
 
 def prepare_100k_dataset(origin_path, dest_path):
@@ -43,6 +45,14 @@ def prepare_20m_dataset(origin_path, dest_path):
         f.write(user_line + '\n')
     f.close()
 
+
+
 if __name__ == '__main__':
-    prepare_100k_dataset('u1.base', 'ml100k-u1')
-    #prepare_20m_dataset('ratings.csv', 'ml-20m')
+    if len(sys.argv) == 1:
+        print 'Usage: \n python adaptMovielensToNetCDF 100k \n python adaptMovielensToNetCDF 20m'
+    elif sys.argv[1] == '100k':
+        prepare_100k_dataset('u1.base', 'ml100k-u1')
+    elif sys.argv[1] == '20m':
+        prepare_20m_dataset('ratings.csv', 'ml-20m')
+    else:
+        print 'Usage: \n python adaptMovielensToNetCDF 100k \n python adaptMovielensToNetCDF 20m'
