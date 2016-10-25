@@ -16,14 +16,13 @@ parser.add_argument('--at', dest='at', default=10)
 
 args = parser.parse_args()
 
-recs = None
-with open(args.recs) as f:
-    recs = json.loads(f.read())
+recs = pd.read_json(args.recs)
+actions = pd.read_csv(args.actions, names=['user_id', 'item_id', 'value', 'timestamp'], sep='\t')
 
-actions = None
-with open(args.actions) as f:
-    actions = pd.read_csv(f, names=['user_id', 'item_id', 'value', 'timestamp'], sep='\t')
+users_at_test = actions.user_id.unique()
+recs_at_test = recs[recs['user'].isin(users_at_test)]
+recs_at_test_json = json.loads(recs_at_test.to_json(orient='records'))
 
-res = map_test.mean_average_precision(recommendations=recs, users=None, threshold=args.threshold, actions=actions, at=args.at)
+res = map_test.mean_average_precision(recommendations=recs_at_test_json, users=None, threshold=args.threshold, actions=actions, at=args.at)
 
 print res
