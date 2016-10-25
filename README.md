@@ -3,7 +3,7 @@
 ## Prepare the environment
 
 This proof of concept has been developed by using an EC2 instance (g2.2xlarge).
-Steps for AMI implementation detailed at the [repository]('https://github.com/amznlabs/amazon-dsstne') of the aws-DSSTNE project have been followed.
+Steps for AMI implementation detailed at the [repository](https://github.com/amznlabs/amazon-dsstne) of the aws-DSSTNE project have been followed.
 
 It is important to know that, although the AMI it is offered, it is necessary
 to download and compile cuDNN because of it is licensed to registered developers only.
@@ -66,7 +66,7 @@ python exploreRecs.py --help
 
 #### metrics.py
 
-[Previous work]('https://github.com/beeva-labs/research-lab-private/blob/master/recsys/benchmark/RecommendationMetrics/MAPTest.py') has been reused for MAP testing.
+[Previous work](https://github.com/beeva-labs/research-lab-private/blob/master/recsys/benchmark/RecommendationMetrics/MAPTest.py) has been reused for MAP testing.
 
 Example of use:
 
