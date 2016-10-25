@@ -22,7 +22,7 @@ with open(args.recs) as f:
 
 actions = None
 with open(args.actions) as f:
-    actions = pd.read_csv(f, names=['user_id', 'item_id', 'value', 'timestamp'])
+    actions = pd.read_csv(f, names=['user_id', 'item_id', 'value', 'timestamp'], sep='\t')
 
 res = map_test.mean_average_precision(recommendations=recs, users=None, threshold=args.threshold, actions=actions, at=args.at)
 
