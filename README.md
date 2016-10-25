@@ -5,9 +5,9 @@
 This proof of concept has been developed by using an EC2 instance (g2.2xlarge).
 Steps for AMI implementation detailed at the [repository](https://github.com/amznlabs/amazon-dsstne) of the aws-DSSTNE project have been followed.
 
-It is important to know that, although the AMI it is offered, it is necessary
-to download and compile cuDNN because of it is licensed to registered developers only.
-In addition, within the AMI the required dependencies are already downloaded but not compiled.
+It is important to note that, although the AMI it is offered, it is necessary
+to download and compile cuDNN due to the fact that it is licensed to registered developers only.
+In addition, within the AMI, the required dependencies are already downloaded but not compiled.
 
 
 Python dependencies
@@ -30,7 +30,7 @@ wget http://files.grouplens.org/datasets/movielens/ml-20m.zip
 Apply before use generateNetCDF utility.
 
 #### adaptMovielensToNetCDF
-This script allows to adapt dataset from movielens to the format passed to netcdfconverter from DSSTNE(Invoke the desired method in the main)
+This script allows us to adapt dataset from movielens to the format passed to netcdfconverter from DSSTNE(Invoke the desired method in the main)
 * It works with 100k dataset.
 * It also works with 20M dataset. We built that one to validate the output was correct (diff <(head -n 6000 ml-20m) <(head -n 6000 ml20m-all))
 
@@ -49,7 +49,7 @@ Apply over DSSTNE's recommendation output
 
 #### exploreRecs
 
-Explores the recommendations produced by DSSTNE and parses them into a format that we can pass to evaluate MAP
+This method explores the recommendations produced by DSSTNE and parses them into a format that we can pass to evaluate MAP
 
 Example of use:
 
