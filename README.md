@@ -82,9 +82,13 @@ exposed by their developers at github. The timestamp of the interaction is used 
 ### Tests Autoencoder for Movielens 100K
 
 Metric: MAP@10 (Mean Average Precission at 10)
+
 Algorithm: Autoencoder
+
 Dataset: Movielens 100K
+
 DSSTNE Configuration: [config.json](https://github.com/beeva-carlosgonzalez/beeva-poc-dsstne/blob/master/100k_autoencoder_test/config.json)
+
 Model validation: K-fold cross validation with k=5
 
 #### Running script
@@ -121,7 +125,7 @@ done
 
 - Amazon DSSTNE does not have good documentation.
 - It works well on movielens but as a magic box.
-- After have changed the training feature from timestamp to rating, the results went down notably. It is not clear if it is due to a missconfiguration or not, so that is the reason to not include it as a result.
+- After have changed the training feature from timestamp to rating, the results went down notably. It is not clear if it is due to a missconfiguration or not, so that is the reason to not to include it as a result.
 
 #### Future work
 
