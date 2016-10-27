@@ -131,6 +131,7 @@ done
 - Amazon DSSTNE does not have good documentation.
 - It works well on movielens but as a magic box.
 - After have changed the training feature from timestamp to rating, the results went down notably. It is not clear if it is due to a missconfiguration or not, so that is the reason to not to include it as a result.
+- NetCDF tool converter does not currently support more than one feature value per feature.
 
 #### Future work
 
