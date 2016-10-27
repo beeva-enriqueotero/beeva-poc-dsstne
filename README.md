@@ -73,3 +73,13 @@ Example of use:
 ```bash
 python metrics.py formatted_rec ux.test
 ```
+
+## Experiment
+
+### Tests Autoencoder for Movielens 100K
+
+Metric: MAP@10 (Mean Average Precission at 10)
+Algorithm: Autoencoder
+Dataset: Movielens 100K
+DSSTNE Configuration: [config.json](https://github.com/beeva-carlosgonzalez/beeva-poc-dsstne/blob/master/100k_autoencoder_test/config.json)
+Model validation: K-fold cross validation with k=5
