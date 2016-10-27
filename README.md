@@ -76,15 +76,21 @@ python metrics.py formatted_rec ux.test
 
 ## Experiment
 
+### Tests Autoencoder for Movielens 100K
+
 It must be taken into account that AWS DSSTNE does not consider the rating feature at the training stage on the example
 exposed by their developers at github. The timestamp of the interaction is used instead of the rating.
 
 ### Tests Autoencoder for Movielens 100K
 
 Metric: MAP@10 (Mean Average Precission at 10)
+
 Algorithm: Autoencoder
+
 Dataset: Movielens 100K
-DSSTNE Configuration: [config.json](https://github.com/beeva-carlosgonzalez/beeva-poc-dsstne/blob/master/100k_autoencoder_test/config.json)
+
+DSSTNE Configuration: [config.json](https://github.com/beeva-carlosgonzalez/beeva-poc-dsstne/blob/master/config.json)
+
 Model validation: K-fold cross validation with k=5
 
 #### Running script
@@ -115,13 +121,17 @@ done
 | DSSTNE Version | DSSTNE Parameters | Test parameters | MAP@10 | Missing results
 | --- | --- | -----------| ---- | --- | ---
 |HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=0, k-fold=5|0.1369| 0%
+|HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.8, beta = 2.0 |threshold=0, k-fold=5|0.1431| 0%
+|HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.2, beta = 2.0 |threshold=0, k-fold=5|0.1386| 0%
 |HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=3, k-fold=5|0.1202| 0%
+|HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 1.5 |threshold=3, k-fold=5|0.1211| 0%
 
 ##### Conclusions
 
 - Amazon DSSTNE does not have good documentation.
 - It works well on movielens but as a magic box.
-- After have changed the training feature from timestamp to rating, the results went down notably. It is not clear if it is due to a missconfiguration or not, so that is the reason to not include it as a result.
+- After have changed the training feature from timestamp to rating, the results went down notably. It is not clear if it is due to a missconfiguration or not, so that is the reason to not to include it as a result.
+- NetCDF tool converter does not currently support more than one feature value per feature.
 
 #### Future work
 
