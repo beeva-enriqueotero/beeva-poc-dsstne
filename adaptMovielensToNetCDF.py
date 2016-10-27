@@ -1,12 +1,23 @@
+__author__='carlos.gonzalez@beeva.com'
+
 """
 Prepares data to go through the generatenetcdf amazon script
 """
 import pandas as pd
 import numpy as np
-import sys
+import argparse
+import re
 
 from tqdm import tqdm
-import re
+
+
+parser = argparse.ArgumentParser(description='Prepares 100k/20m/10m movielens dataset to be passed to NetCDFConverter')
+parser.add_argument('dataset', metavar='D', type=str, help='Dataset to transform: 100k, 10m or 20m')
+parser.add_argument('file', metavar='F', type=str, help='File containing dataset.')
+parser.add_argument('-u', dest='folding', default=1, type=int, help='Index in the k-folding, Only used for the output filename')
+args = parser.parse_args()
+
+actions = dict()
 
 def prepare_100k_dataset(origin_path, dest_path):
     """
@@ -65,14 +76,10 @@ def prepare_10m_dataset(origin_path, dest_path):
         f.write(user_line + '\n')
     f.close()
 
+actions['100k'] = prepare_100k_dataset
+actions['20m'] = prepare_20m_dataset
+actions['10m'] = prepare_20m_dataset
+
 if __name__ == '__main__':
-    if len(sys.argv) == 1:
-        print 'Usage: \n python adaptMovielensToNetCDF.py 100k \n python adaptMovielensToNetCDF.py 20m'
-    elif sys.argv[1] == '100k':
-        prepare_100k_dataset('u1.base', 'ml100k-u1')
-    elif sys.argv[1] == '20m':
-        prepare_20m_dataset('ratings.csv', 'ml-20m')
-    elif sys.argv[1] == '10m':
-        prepare_10m_dataset('r1.base', 'ml-10m')
-    else:
-        print 'Usage: \n python adaptMovielensToNetCDF.py 100k \n python adaptMovielensToNetCDF.py 20m \n python adaptMovielensToNetCDF.py 10m'
+    dest_path = 'ml%s-u%s' %(args.dataset, args.folding)
+    actions[args.dataset](args.file, dest_path)
