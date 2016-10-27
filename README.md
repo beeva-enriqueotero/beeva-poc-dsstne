@@ -5,7 +5,7 @@
 This proof of concept has been developed by using an EC2 instance (g2.2xlarge).
 Steps for AMI implementation detailed at the [repository](https://github.com/amznlabs/amazon-dsstne) of the aws-DSSTNE project have been followed.
 
-It is important to note that, although the AMI it is offered, it is necessary
+>It is important to note that, although the AMI it is offered, it is necessary
 to download and compile cuDNN due to the fact that it is licensed to registered developers only.
 In addition, within the AMI, the required dependencies are already downloaded but not compiled.
 
@@ -78,10 +78,8 @@ python metrics.py formatted_rec ux.test
 
 ### Tests Autoencoder for Movielens 100K
 
-It must be taken into account that AWS DSSTNE does not consider the rating feature at the training stage on the example
+>It must be taken into account that AWS DSSTNE does not consider the rating feature at the training stage on the example
 exposed by their developers at github. The timestamp of the interaction is used instead of the rating.
-
-### Tests Autoencoder for Movielens 100K
 
 Metric: MAP@10 (Mean Average Precission at 10)
 
@@ -96,7 +94,7 @@ Model validation: K-fold cross validation with k=5
 #### Running script
 For simplicity, you can use run_100k.sh script at the root of the project to generate all recomendation files for the k-folding
 and write to files the MAP@10 results. It cleans everything but the MAP results once has finished.
-```
+```bash
 #!/bin/sh
 
 for i in 1 2 3 4 5
