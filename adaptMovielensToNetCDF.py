@@ -11,13 +11,26 @@ import re
 from tqdm import tqdm
 
 
-parser = argparse.ArgumentParser(description='Prepares 100k/20m/10m movielens dataset to be passed to NetCDFConverter')
+parser = argparse.ArgumentParser(description='Prepares 100k/20m movielens dataset to be passed to NetCDFConverter')
 parser.add_argument('dataset', metavar='D', type=str, help='Dataset to transform: 100k, 10m or 20m')
 parser.add_argument('file', metavar='F', type=str, help='File containing dataset.')
 parser.add_argument('-u', dest='folding', default=1, type=int, help='Index in the k-folding, Only used for the output filename')
 args = parser.parse_args()
 
 actions = dict()
+
+
+def parse_ml_dataset(dataset, dest_path):
+    users = dataset['userId'].unique()
+    f = open(dest_path, 'w+')
+    for user in tqdm(np.nditer(users), total=users.shape[0]):
+        user_line = str(user) + '\t'
+        users_value = dataset[dataset['userId'].values == user]
+        for row, value in users_value.iterrows():
+            user_line += str(int(value['movieId'])) + ',' + str(int(value['timestamp'])) + ':'
+        user_line = user_line.rstrip(':')
+        f.write(user_line + '\n')
+    f.close()
 
 def prepare_100k_dataset(origin_path, dest_path):
     """
@@ -27,16 +40,8 @@ def prepare_100k_dataset(origin_path, dest_path):
     :return:
     """
     dataset = pd.read_csv(origin_path, delimiter='\t', names = ['userId', 'movieId', 'rating', 'timestamp'])
-    users = dataset['userId'].unique()
-    f = open(dest_path, 'w+')
-    for user in tqdm(np.nditer(users), total=users.shape[0]):
-        user_line = str(user) + '\t'
-        users_value = dataset[dataset['userId'].values == user]
-        for row, value in users_value.iterrows():
-            user_line += str(value['movieId']) + ',' + str(value['timestamp']) + ':'
-        user_line = user_line.rstrip(':')
-        f.write(user_line + '\n')
-    f.close()
+    parse_ml_dataset(dataset, dest_path)
+
 
 def prepare_20m_dataset(origin_path, dest_path):
     """
@@ -46,16 +51,7 @@ def prepare_20m_dataset(origin_path, dest_path):
     :return:
     """
     dataset = pd.read_csv(origin_path, delimiter=',')
-    users = dataset['userId'].unique()
-    f = open(dest_path, 'w+')
-    for user in tqdm(np.nditer(users), total=users.shape[0]):
-        user_line = str(user) + '\t'
-        users_value = dataset[dataset['userId'].values == user]
-        for row, value in users_value.iterrows():
-            user_line += str(int(value['movieId'])) + ',' + str(int(value['timestamp'])) + ':'
-        user_line = user_line.rstrip(':')
-        f.write(user_line + '\n')
-    f.close()
+    parse_ml_dataset(dataset, dest_path)
 
 def prepare_10m_dataset(origin_path, dest_path):
     """
@@ -65,20 +61,12 @@ def prepare_10m_dataset(origin_path, dest_path):
     :return:
     """
     dataset = pd.read_csv(origin_path, delimiter='::', names = ['userId', 'movieId', 'rating', 'timestamp'])
-    users = dataset['userId'].unique()
-    f = open(dest_path, 'w+')
-    for user in tqdm(np.nditer(users), total=users.shape[0]):
-        user_line = str(user) + '\t'
-        users_value = dataset[dataset['userId'].values == user]
-        for row, value in users_value.iterrows():
-            user_line += str(int(value['movieId'])) + ',' + str(int(value['timestamp'])) + ':'
-        user_line = user_line.rstrip(':')
-        f.write(user_line + '\n')
-    f.close()
+    parse_ml_dataset(dataset, dest_path)
+
 
 actions['100k'] = prepare_100k_dataset
-actions['20m'] = prepare_20m_dataset
 actions['10m'] = prepare_10m_dataset
+actions['20m'] = prepare_20m_dataset
 
 if __name__ == '__main__':
     dest_path = 'ml%s-u%s' %(args.dataset, args.folding)
