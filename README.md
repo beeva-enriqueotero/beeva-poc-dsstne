@@ -78,8 +78,62 @@ python metrics.py formatted_rec ux.test
 
 ### Tests Autoencoder for Movielens 100K
 
+It must be taken into account that AWS DSSTNE does not consider the rating feature at the training stage on the example
+exposed by their developers at github. The timestamp of the interaction is used instead of the rating.
+
+### Tests Autoencoder for Movielens 100K
+
 Metric: MAP@10 (Mean Average Precission at 10)
+
 Algorithm: Autoencoder
+
 Dataset: Movielens 100K
+
 DSSTNE Configuration: [config.json](https://github.com/beeva-carlosgonzalez/beeva-poc-dsstne/blob/master/100k_autoencoder_test/config.json)
+
 Model validation: K-fold cross validation with k=5
+
+#### Running script
+For simplicity, you can use run_100k.sh script at the root of the project to generate all recomendation files for the k-folding
+and write to files the MAP@10 results. It cleans everything but the MAP results once has finished.
+```
+#!/bin/sh
+
+for i in 1 2 3 4 5
+do
+  echo 'adapting subset u'$i
+  echo "movielens/100k/ml-100k/u$i.base"
+  python adaptMovielensToNetCDF.py 100k "movielens/100k/ml-100k/u$i.base" -u $i
+  generateNetCDF -d gl_input -i "ml100k-u$i" -o gl_input.nc -f features_input -s samples_input -c
+  generateNetCDF -d gl_output -i "ml100k-u$i" -o gl_output.nc -f features_output -s samples_input -c
+  train -c config.json -i gl_input.nc -o gl_output.nc -n gl.nc -b 256 -e 10
+  predict -b 1024 -d gl -i features_input -o features_output -k 10 -n gl.nc -f "ml100k-u$i" -s recs -r "ml100k-u$i"
+  echo "MAP for u"$i >> map10
+  python exploreRecs.py recs --output u_formatted_recs.csv >> map10
+  python metrics.py --threshold 3 u_formatted_recs.csv "movielens/100k/ml-100k/u$i.test" >> map10
+  rm features_* gl* initial_network.nc ml100k-u* recs u.csv u_formatted_recs.csv
+done
+
+
+```
+
+#### Results
+| DSSTNE Version | DSSTNE Parameters | Test parameters | MAP@10 | Missing results
+| --- | --- | -----------| ---- | --- | ---
+|HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=0, k-fold=5|0.1369| 0%
+|HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.8, beta = 2.0 |threshold=0, k-fold=5|0.1431| 0%
+|HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.2, beta = 2.0 |threshold=0, k-fold=5|0.1386| 0%
+|HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=3, k-fold=5|0.1202| 0%
+|HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 1.5 |threshold=3, k-fold=5|0.1211| 0%
+
+##### Conclusions
+
+- Amazon DSSTNE does not have good documentation.
+- It works well on movielens but as a magic box.
+- After have changed the training feature from timestamp to rating, the results went down notably. It is not clear if it is due to a missconfiguration or not, so that is the reason to not to include it as a result.
+
+#### Future work
+
+- Exhaustive tuning of the configurations offered by the library.
+  - Using different features (e.g rating)
+  - Modifying parameters at config.json
