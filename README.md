@@ -89,7 +89,7 @@ Algorithm: Autoencoder
 
 Dataset: Movielens 100K
 
-DSSTNE Configuration: [config.json](https://github.com/beeva-carlosgonzalez/beeva-poc-dsstne/blob/master/100k_autoencoder_test/config.json)
+DSSTNE Configuration: [config.json](https://github.com/beeva-carlosgonzalez/beeva-poc-dsstne/blob/master/config.json)
 
 Model validation: K-fold cross validation with k=5
 
