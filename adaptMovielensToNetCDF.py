@@ -78,7 +78,7 @@ def prepare_10m_dataset(origin_path, dest_path):
 
 actions['100k'] = prepare_100k_dataset
 actions['20m'] = prepare_20m_dataset
-actions['10m'] = prepare_20m_dataset
+actions['10m'] = prepare_10m_dataset
 
 if __name__ == '__main__':
     dest_path = 'ml%s-u%s' %(args.dataset, args.folding)
