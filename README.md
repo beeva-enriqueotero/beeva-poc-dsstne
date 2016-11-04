@@ -124,6 +124,10 @@ done
 |HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=3, k-fold=5|0.1202| 0%
 |HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 1.5 |threshold=3, k-fold=5|0.1211| 0%
 
+
+#### Stress tests
+[Stress tests within Seldon.io](https://github.com/beeva-labs/beeva-poc-seldon/tree/master/recsys/StressTests#conclusions)
+
 ##### Conclusions
 
 - Amazon DSSTNE does not have good documentation.
