@@ -5,6 +5,7 @@
 #### Testbed
 
 * Infrastructure: g2.2x
+* Cost: 0.65$/h = 470$/month
 * Algorithm: Autoencoder
 * Dataset: Movielens 10M (subset u1)
 * k = 10..30 recs
@@ -13,7 +14,8 @@
 
 #### Generate recommendations
 ```
-time predict -b 50 -d gl -i features_input -o features_output -k 10 -n gl.nc -f "ml10m-u1train.bak" -s recs -r "ml10m-u1train.bak"
+cat ml10m-u1train.bak | head -n 1 > ml10m-u1train.head.1
+time predict -b 50 -d gl -i features_input -o features_output -k 10 -n gl.nc -f "ml10m-u1train.bak" -s recs -r "ml10m-u1train.head.1"
 ```
 
 #### Results:
@@ -21,3 +23,15 @@ time predict -b 50 -d gl -i features_input -o features_output -k 10 -n gl.nc -f 
 | --- | -----------| ---- | --- | ---
 | 10 | 69878 | 50 | 26.5s | 5.2s
 | 10 | 69878 | 1024 | 26.9s | 3.7s
+| 10 | 1 | 1024 | 2.31s | 0.036s
+| 30 | 1 | 1 | 2.31s | 0.002s
+| 30 | 1 | 1024 | 2.31s | 0.035s
+| 10 | 10 | 1024 | 2.39s | 0.035s
+| 30 | 10 | 1024 | 2.34s | 0.036s
+| 10 | 10 | 10 | 2.30s | 0.003s
+| 30 | 10 | 10 | 2.30s | 0.003s
+
+
+#### Conclusions:
+* Net time required to serve each recommendation is very low (< 4ms). But time to load model is very high.
+* To serve recommendations online with a maximum latency of 0.3s it's required to modify behaviour to pre-load the model.
