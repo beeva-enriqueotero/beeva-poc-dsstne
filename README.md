@@ -130,6 +130,16 @@ done
 |HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=3, k-fold=5|0.1202| 0%
 |HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 1.5 |threshold=3, k-fold=5|0.1211| 0%
 
+#### Timing
+
+The rows are sort by matching its indexes with the corresponding result in the table above.
+
+In case of k-folding, results were similar so just one of them is shown.
+
+| generateNetCDF input | generateNetCDF output |  training | prediction | num recommendations
+| ---- | ---- | ----| ---- | ---- | ----
+| 0.136s | 0.134s | 0.201s | network loading: 0.299s,  recommend: 0.015s | 943
+
 ### Tests Autoencoder for Movielens 10M
 
 #### Running script
@@ -161,10 +171,6 @@ done
 |HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=0, k-fold=5|0.2627| 0%
 
 #### Timing
-
-The rows are sort by matching its indexes with the corresponding result in the table above.
-
-In case of k-folding, results were similar so just one of them is shown.
 
 | generateNetCDF input | generateNetCDF output |  training | prediction | num recommendations
 | ---- | ---- | ----| ---- | ---- | ----
