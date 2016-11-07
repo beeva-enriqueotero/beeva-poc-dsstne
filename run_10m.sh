@@ -11,6 +11,6 @@ do
   predict -b 1024 -d gl -i features_input -o features_output -k 10 -n gl.nc -f ml10m-u$i\train -s recs -r ml10m-u$i\train
   echo "MAP for u"$i >> map10
   python exploreRecs.py recs --output u_formatted_recs.csv >> map10
-  python metrics.py --threshold 0 u_formatted_recs.csv ~/movielens/10M/ml-10M100K/r$i.test >> map10
+  python metrics.py --threshold 3 u_formatted_recs.csv ~/movielens/10M/ml-10M100K/r$i.test >> map10
   rm features_* gl* initial_network.nc recs
 done
