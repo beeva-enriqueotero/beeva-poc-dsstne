@@ -17,10 +17,11 @@ Python 2.7.12
 pip install -r requirements.txt
 ```
 
-Download movielens 100k and 20m datasets
+Download movielens 100k, 10m and 20m datasets
 
 ```bash
 wget http://files.grouplens.org/datasets/movielens/ml-100k.zip
+wget http://files.grouplens.org/datasets/movielens/ml-10m.zip
 wget http://files.grouplens.org/datasets/movielens/ml-20m.zip
 ```
 
@@ -31,7 +32,7 @@ Apply before use generateNetCDF utility.
 
 #### adaptMovielensToNetCDF
 This script allows us to adapt dataset from movielens to the format passed to netcdfconverter from DSSTNE(Invoke the desired method in the main)
-* It works with 100k dataset.
+* It works with 100k and 10m dataset.
 * It also works with 20M dataset. We built that one to validate the output was correct (diff <(head -n 6000 ml-20m) <(head -n 6000 ml20m-all))
 
 Example of use:
@@ -72,6 +73,11 @@ Example of use:
 
 ```bash
 python metrics.py formatted_rec ux.test
+```
+
+For further info
+```bash
+python metrics.py --help
 ```
 
 ## Experiment
@@ -124,6 +130,24 @@ done
 |HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=3, k-fold=5|0.1202| 0%
 |HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 1.5 |threshold=3, k-fold=5|0.1211| 0%
 
+### Tests Autoencoder for Movielens 10M
+
+#### Results
+| DSSTNE Version | DSSTNE Parameters | Test parameters | MAP@10 | Missing results
+| --- | --- | -----------| ---- | --- | ---
+|HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=3, k-fold=5|0.2434| 0%
+|HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=0, k-fold=5|0.2627| 0%
+
+#### Timing
+
+The rows are sort by matching its indexes with the corresponding result in the table above.
+
+In case of k-folding, results were similar so just one of them is shown.
+
+| generateNetCDF input | generateNetCDF output |  training | prediction | num recommendations
+| ---- | ---- | ----| ---- | ---- | ----
+| 12.38s | 11.49s | 19.84sec | network loading: 27.124s,  recommend: 3.7s | 69878
+
 ##### Conclusions
 
 - Amazon DSSTNE does not have good documentation.
@@ -136,3 +160,4 @@ done
 - Exhaustive tuning of the configurations offered by the library.
   - Using different features (e.g rating)
   - Modifying parameters at config.json
+- Test on a different dataset
