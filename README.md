@@ -126,7 +126,8 @@ done
 
 
 #### Stress tests
-[Stress tests within Seldon.io](https://github.com/beeva-labs/beeva-poc-seldon/tree/master/recsys/StressTests#conclusions)
+* [Stress tests analysis](StressTests)
+* [Stress tests within Seldon.io](https://github.com/beeva-labs/beeva-poc-seldon/tree/master/recsys/StressTests#conclusions)
 
 ##### Conclusions
 
