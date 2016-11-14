@@ -130,6 +130,34 @@ done
 |HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=3, k-fold=5|0.1202| 0%
 |HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 1.5 |threshold=3, k-fold=5|0.1211| 0%
 
+#### Additional results
+
+In addition to the previous work, there were made some tests, with the same configuration, to analyse the behaviour of the library by using another feature instead of timestamps. Ratings were chosen and results decreased so much.
+
+| DSSTNE Version | DSSTNE Parameters | Test parameters | MAP@10 | Missing results
+| --- | --- | -----------| ---- | --- | ---
+|HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=3, k-fold=5|0,0008534| 0%
+|HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=0, k-fold=5|0,00067348| 0%
+
+After some research, it is found it that timestamps are not used as is, but they are transformed to 0's. With that information, doing the same
+with ratings and filtering out those lower than 3 it takes MAP results to slightly good percentages. The reason might be that amazon dsstne takes interactions as
+likes and the absence of them as dislikes, so if we just take ratings interactions greater than 3 and change that values by 0's, we are simulating that like/dislike behaviour.
+
+The code of adaptMovielensToNetCDF was modified just for this tests at line 30 with:
+```python
+user_line += str(int(value['movieId'])) + ',' + str(int(0)) + ':'
+```
+and in line 42 with:
+```python
+dataset = pd.read_csv(origin_path, delimiter='\t', names = ['userId', 'movieId', 'rating', 'timestamp'])
+```
+
+| DSSTNE Version | DSSTNE Parameters | Test parameters | MAP@10 | Missing results
+| --- | --- | -----------| ---- | --- | ---
+|HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=0, k-fold=5|0.126| 0%
+|HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=3, k-fold=5|0,115| 0%
+
+
 #### Timing
 
 The rows are sort by matching its indexes with the corresponding result in the table above.
