@@ -1,4 +1,4 @@
-git+git://github.com/beeva-albertorincon/recsysmetrics
+git+git://github.com/beeva-labs/MetricsEvaluation
 numpy==1.11.2
 pandas==0.19.0
 python-dateutil==2.5.3
