@@ -1,3 +1,4 @@
+git+git://github.com/beeva-albertorincon/recsysmetrics
 numpy==1.11.2
 pandas==0.19.0
 pkg-resources==0.0.0

@@ -4,7 +4,7 @@ Metrics calculation for movielens at asw dsstne.
 
 import argparse
 import json
-import MAPTest as map_test
+from recsysmetrics import map_test
 import pandas as pd
 
 
