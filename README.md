@@ -203,6 +203,11 @@ done
 | ---- | ---- | ----| ---- | ---- | ----
 | 12.38s | 11.49s | 19.84sec | network loading: 27.124s,  recommend: 3.7s | 69878
 
+#### Stress tests
+* [Stress tests analysis](StressTests)
+* [Stress tests within Seldon.io](https://github.com/beeva-labs/beeva-poc-seldon/tree/master/recsys/StressTests#conclusions)
+
+
 ##### Conclusions
 
 - Amazon DSSTNE does not have good documentation.
