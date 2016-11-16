@@ -138,9 +138,7 @@ In addition to the previous work, there were made some tests, with the same conf
 |HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=3, k-fold=5|0,0008534| 0%
 |HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=0, k-fold=5|0,00067348| 0%
 
-After some research, it is found that timestamps are not used as is, but they are transformed to 0's. With that information, doing the same
-with ratings and filtering out those lower than 3 it takes MAP results to slightly good percentages. The reason might be that amazon dsstne takes interactions as
-likes and the absence of them as dislikes, so if we just take ratings interactions greater than 3 and change that values by 0's, we are simulating that like/dislike behaviour.
+After some [research](https://github.com/amznlabs/amazon-dsstne/blob/master/src/amazon/dsstne/utils/Filters.cpp#L184), it is found that timestamps are not used as is, but low numeric values (0 < values < 10) don't work. With that information, dealing with ratings and filtering out those lower than 3 it takes MAP results to slightly good percentages.
 
 The code of adaptMovielensToNetCDF was modified just for this tests at line 30 with:
 ```python
