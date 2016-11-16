@@ -130,7 +130,6 @@ done
 |HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=3, k-fold=5|0.1202| 0%
 |HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 1.5 |threshold=3, k-fold=5|0.1211| 0%
 
-#### Additional results
 
 In addition to the previous work, there were made some tests, with the same configuration, to analyse the behaviour of the library by using another feature instead of timestamps. Ratings were chosen and results decreased so much.
 
@@ -216,4 +215,3 @@ done
 - Exhaustive tuning of the configurations offered by the library.
   - Using different features (e.g rating)
   - Modifying parameters at config.json
-- Test on a different dataset
