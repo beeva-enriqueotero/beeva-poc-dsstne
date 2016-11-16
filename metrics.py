@@ -4,7 +4,7 @@ Metrics calculation for movielens at asw dsstne.
 
 import argparse
 import json
-import MAPTest as map_test
+from recsysmetrics import map_test
 import pandas as pd
 
 
@@ -17,7 +17,7 @@ parser.add_argument('--at', dest='at', default=10)
 args = parser.parse_args()
 
 recs = pd.read_json(args.recs)
-actions = pd.read_csv(args.actions, names=['user_id', 'item_id', 'value', 'timestamp'], sep='\t')
+actions = pd.read_csv(args.actions, names=['user_id', 'item_id', 'value', 'timestamp'], sep=r'[\t:,]+', engine='python')
 
 users_at_test = actions.user_id.unique()
 recs_at_test = recs[recs['user'].isin(users_at_test)]

@@ -17,10 +17,11 @@ Python 2.7.12
 pip install -r requirements.txt
 ```
 
-Download movielens 100k and 20m datasets
+Download movielens 100k, 10m and 20m datasets
 
 ```bash
 wget http://files.grouplens.org/datasets/movielens/ml-100k.zip
+wget http://files.grouplens.org/datasets/movielens/ml-10m.zip
 wget http://files.grouplens.org/datasets/movielens/ml-20m.zip
 ```
 
@@ -31,7 +32,7 @@ Apply before use generateNetCDF utility.
 
 #### adaptMovielensToNetCDF
 This script allows us to adapt dataset from movielens to the format passed to netcdfconverter from DSSTNE(Invoke the desired method in the main)
-* It works with 100k dataset.
+* It works with 100k and 10m dataset.
 * It also works with 20M dataset. We built that one to validate the output was correct (diff <(head -n 6000 ml-20m) <(head -n 6000 ml20m-all))
 
 Example of use:
@@ -72,6 +73,11 @@ Example of use:
 
 ```bash
 python metrics.py formatted_rec ux.test
+```
+
+For further info
+```bash
+python metrics.py --help
 ```
 
 ## Experiment
@@ -124,9 +130,79 @@ done
 |HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=3, k-fold=5|0.1202| 0%
 |HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 1.5 |threshold=3, k-fold=5|0.1211| 0%
 
+#### Additional results
 
-#### Stress tests
-[Stress tests within Seldon.io](https://github.com/beeva-labs/beeva-poc-seldon/tree/master/recsys/StressTests#conclusions)
+In addition to the previous work, there were made some tests, with the same configuration, to analyse the behaviour of the library by using another feature instead of timestamps. Ratings were chosen and results decreased so much.
+
+| DSSTNE Version | DSSTNE Parameters | Test parameters | MAP@10 | Missing results
+| --- | --- | -----------| ---- | --- | ---
+|HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=3, k-fold=5|0,0008534| 0%
+|HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=0, k-fold=5|0,00067348| 0%
+
+After some research, it is found that timestamps are not used as is, but they are transformed to 0's. With that information, doing the same
+with ratings and filtering out those lower than 3 it takes MAP results to slightly good percentages. The reason might be that amazon dsstne takes interactions as
+likes and the absence of them as dislikes, so if we just take ratings interactions greater than 3 and change that values by 0's, we are simulating that like/dislike behaviour.
+
+The code of adaptMovielensToNetCDF was modified just for this tests at line 30 with:
+```python
+user_line += str(int(value['movieId'])) + ',' + str(int(0)) + ':'
+```
+and in line 42 with:
+```python
+dataset = pd.read_csv(origin_path, delimiter='\t', names = ['userId', 'movieId', 'rating', 'timestamp'])
+```
+
+| DSSTNE Version | DSSTNE Parameters | Test parameters | MAP@10 | Missing results
+| --- | --- | -----------| ---- | --- | ---
+|HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=0, k-fold=5|0.126| 0%
+|HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=3, k-fold=5|0,115| 0%
+
+
+#### Timing
+
+The rows are sort by matching its indexes with the corresponding result in the table above.
+
+In case of k-folding, results were similar so just one of them is shown.
+
+| generateNetCDF input | generateNetCDF output |  training | prediction | num recommendations
+| ---- | ---- | ----| ---- | ---- | ----
+| 0.136s | 0.134s | 0.201s | network loading: 0.299s,  recommend: 0.015s | 943
+
+### Tests Autoencoder for Movielens 10M
+
+#### Running script
+
+```bash
+#!/bin/sh
+
+for i in 1 2 3 4 5
+do
+  echo 'adapting subset u'$i
+  echo ml10m-u$i\train
+  python adaptMovielensToNetCDF.py 10m "~/movielens/10M/ml-10M100K/ml10m-u$itrain" -u $i
+  generateNetCDF -d gl_input -i ml10m-u$i\train -o gl_input.nc -f features_input -s samples_input -c
+  generateNetCDF -d gl_output -i ml10m-u$i\train -o gl_output.nc -f features_output -s samples_input -c
+  train -c config.json -i gl_input.nc -o gl_output.nc -n gl.nc -b 256 -e 10
+  predict -b 1024 -d gl -i features_input -o features_output -k 10 -n gl.nc -f ml10m-u$i\train -s recs -r ml10m-u$i\train
+  echo "MAP for u"$i >> map10
+  python exploreRecs.py recs --output u_formatted_recs.csv >> map10
+  python metrics.py --threshold 3 u_formatted_recs.csv ~/movielens/10M/ml-10M100K/r$i.test >> map10
+  rm features_* gl* initial_network.nc recs
+done
+
+```
+
+#### Results
+| DSSTNE Version | DSSTNE Parameters | Test parameters | MAP@10 | Missing results
+| --- | --- | -----------| ---- | --- | ---
+|HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=3, k-fold=5|0.2434| 0%
+|HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=0, k-fold=5|0.2627| 0%
+
+#### Timing
+
+| generateNetCDF input | generateNetCDF output |  training | prediction | num recommendations
+| ---- | ---- | ----| ---- | ---- | ----
+| 12.38s | 11.49s | 19.84sec | network loading: 27.124s,  recommend: 3.7s | 69878
 
 ##### Conclusions
 
@@ -140,3 +216,4 @@ done
 - Exhaustive tuning of the configurations offered by the library.
   - Using different features (e.g rating)
   - Modifying parameters at config.json
+- Test on a different dataset
