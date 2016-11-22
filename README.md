@@ -5,10 +5,10 @@
 
 ## Content
 
-* [Prepare the environment](##Prepare-the-environment)
-* [Data manipulation](##Data-manipulation)
-* [MAP test](##MAP-test)
-* [Experiment](##Experiment)
+* [Prepare the environment](##prepare-the-environment)
+* [Data manipulation](##data-manipulation)
+* [MAP test](##map-test)
+* [Experiment](##experiment)
 
 ## Prepare the environment
 
