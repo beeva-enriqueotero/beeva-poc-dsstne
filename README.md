@@ -1,5 +1,15 @@
 # beeva-poc-DSSTNE
 
+> [More conclusions](https://github.com/beeva-labs/beeva-poc-seldon/blob/master/recsys/README_benchmark_map10_dsstne.md)
+  and [Stress tests](https://github.com/beeva-labs/beeva-poc-seldon/tree/master/recsys/StressTests#conclusions) links
+
+## Content
+
+* [Prepare the environment](##Prepare-the-environment)
+* [Data manipulation](##Data-manipulation)
+* [MAP test](##MAP-test)
+* [Experiment](##Experiment)
+
 ## Prepare the environment
 
 This proof of concept has been developed by using an EC2 instance (g2.2xlarge).
