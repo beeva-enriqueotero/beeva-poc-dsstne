@@ -12,12 +12,19 @@ by modifying `train` with command `mpirun -np 4`
 
 #### Results
 
-### Tests for Movielens 10M
+* Train
+
+![Alt text](images/multigpu_train.png "nvidia-smi output")
+
+![Alt text](images/multigpu_train2.png "mpirun train")
+
+* Predict
+![Alt text](images/multigpu_predict.png "mpirun predict error")
 
 | dataset | instance | training time 
 | ---- | ---- | ---- 
 | Movielens 10M | g2.2x | 19.84s 
-| Movielens 10M | g2.8x | 9.95s 
+| Movielens 10M | g2.8x | 10.19s 
 | Movielens 100k | g2.2x | 0.201s
 | Movielens 100k | g2.8x | 0.149s 
 
