@@ -2,6 +2,8 @@
 
 > [More conclusions](https://github.com/beeva-labs/beeva-poc-seldon/blob/master/recsys/README_benchmark_map10_dsstne.md)
   and [Stress tests](https://github.com/beeva-labs/beeva-poc-seldon/tree/master/recsys/StressTests#conclusions) links
+  
+> [Multi-gpu tests](https://github.com/beeva-enriqueotero/beeva-poc-dsstne/blob/master/README_multigpu.md)
 
 ## Content
 
