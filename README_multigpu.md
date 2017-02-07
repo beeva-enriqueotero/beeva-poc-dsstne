@@ -14,10 +14,12 @@ by modifying `train` with command `mpirun -np 4`
 
 ### Tests for Movielens 10M
 
-| instance | training time 
-| ---- | ---- 
-| g2.2x | 19.84s 
-| g2.8x | 9.95s 
+| dataset | instance | training time 
+| ---- | ---- | ---- 
+| Movielens 10M | g2.2x | 19.84s 
+| Movielens 10M | g2.8x | 9.95s 
+| Movielens 100k | g2.2x | 0.201s
+| Movielens 100k | g2.8x | 0.149s 
 
 
 ##### Conclusions
