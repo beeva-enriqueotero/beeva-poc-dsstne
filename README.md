@@ -135,7 +135,7 @@ done
 
 #### Results
 | DSSTNE Version | DSSTNE Parameters | Test parameters | MAP@10 | Missing results
-| --- | --- | -----------| ---- | --- | ---
+| --- | --- | -----------| ---- | --- 
 |HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=0, k-fold=5|0.1369| 0%
 |HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.8, beta = 2.0 |threshold=0, k-fold=5|0.1431| 0%
 |HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.2, beta = 2.0 |threshold=0, k-fold=5|0.1386| 0%
@@ -146,7 +146,7 @@ done
 In addition to the previous work, there were made some tests, with the same configuration, to analyse the behaviour of the library by using another feature instead of timestamps. Ratings were chosen and results decreased so much.
 
 | DSSTNE Version | DSSTNE Parameters | Test parameters | MAP@10 | Missing results
-| --- | --- | -----------| ---- | --- | ---
+| --- | --- | -----------| ---- | --- 
 |HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=3, k-fold=5|0,0008534| 0%
 |HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=0, k-fold=5|0,00067348| 0%
 
@@ -162,7 +162,7 @@ dataset = pd.read_csv(origin_path, delimiter='\t', names = ['userId', 'movieId',
 ```
 
 | DSSTNE Version | DSSTNE Parameters | Test parameters | MAP@10 | Missing results
-| --- | --- | -----------| ---- | --- | ---
+| --- | --- | -----------| ---- | --- 
 |HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=0, k-fold=5|0.126| 0%
 |HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=3, k-fold=5|0,115| 0%
 
@@ -174,7 +174,7 @@ The rows are sort by matching its indexes with the corresponding result in the t
 In case of k-folding, results were similar so just one of them is shown.
 
 | generateNetCDF input | generateNetCDF output |  training | prediction | num recommendations
-| ---- | ---- | ----| ---- | ---- | ----
+| ---- | ---- | ----| ---- | ----
 | 0.136s | 0.134s | 0.201s | network loading: 0.299s,  recommend: 0.015s | 943
 
 ### Tests Autoencoder for Movielens 10M
@@ -203,14 +203,14 @@ done
 
 #### Results
 | DSSTNE Version | DSSTNE Parameters | Test parameters | MAP@10 | Missing results
-| --- | --- | -----------| ---- | --- | ---
+| --- | --- | -----------| ---- | --- 
 |HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=3, k-fold=5|0.2434| 0%
 |HEAD detached at [9f08739](https://github.com/amznlabs/amazon-dsstne/tree/9f08739b62b3d3f7c742e30f83c55b65aaf7920b) , Amazon DSSTNE (ami-d6f2e6bc)| p = 0.5, beta = 2.0 |threshold=0, k-fold=5|0.2627| 0%
 
 #### Timing
 
 | generateNetCDF input | generateNetCDF output |  training | prediction | num recommendations
-| ---- | ---- | ----| ---- | ---- | ----
+| ---- | ---- | ----| ---- | ---- 
 | 12.38s | 11.49s | 19.84sec | network loading: 27.124s,  recommend: 3.7s | 69878
 
 #### Stress tests
